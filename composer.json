@@ -1,0 +1,34 @@
+{
+    "name": "napryc/php8-compat",
+    "description": "PHP 8 compatibility layer for PHP 7.1+ applications",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^7.1 || ^8.0",
+        "ext-mbstring": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Napryc\\PHP8Compat\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Napryc",
+            "email": "dev@napryc.com",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "stable",
+    "keywords": [
+        "php8",
+        "compatibility",
+        "polyfill",
+        "string functions",
+        "array functions"
+    ]
+}
+
