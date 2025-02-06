@@ -292,7 +292,7 @@ class PHP8Compat
      * @param string $needle The substring to search for
      * @return bool Returns true if haystack starts with needle, false otherwise
      */
-    public static function strStartsWith(string $haystack, string $needle): bool
+    public static function str_starts_with(string $haystack, string $needle): bool
     {
         if (self::IS_PHP8) {
             return str_starts_with($haystack, $needle);
@@ -307,7 +307,7 @@ class PHP8Compat
      * @param string $needle The substring to search for
      * @return bool Returns true if haystack ends with needle, false otherwise
      */
-    public static function strEndsWith(string $haystack, string $needle): bool
+    public static function str_ends_with(string $haystack, string $needle): bool
     {
         if (self::IS_PHP8) {
             return str_ends_with($haystack, $needle);

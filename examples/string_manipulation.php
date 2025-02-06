@@ -14,5 +14,5 @@ echo PHP8Compat::mb_str_pad("Hello", 10, "*", STR_PAD_BOTH) . "\n";  // **Hello*
 echo "\nString Search Examples:\n";
 $text = "Hello World, welcome to PHP";
 echo "Contains 'World': " . (PHP8Compat::str_contains($text, "World") ? 'true' : 'false') . "\n";
-echo "Starts with 'Hello': " . (PHP8Compat::strStartsWith($text, "Hello") ? 'true' : 'false') . "\n";
-echo "Ends with 'PHP': " . (PHP8Compat::strEndsWith($text, "PHP") ? 'true' : 'false') . "\n";
+echo "Starts with 'Hello': " . (PHP8Compat::str_starts_with($text, "Hello") ? 'true' : 'false') . "\n";
+echo "Ends with 'PHP': " . (PHP8Compat::str_ends_with($text, "PHP") ? 'true' : 'false') . "\n";

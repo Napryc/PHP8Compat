@@ -22,18 +22,18 @@ class PHP8CompatTest extends TestCase
         $this->assertFalse(PHP8Compat::str_contains("Hello World", "Python"));
     }
 
-    public function testStrStartsWith()
+    public function teststr_starts_with()
     {
-        $this->assertTrue(PHP8Compat::strStartsWith("Hello World", "Hello"));
-        $this->assertFalse(PHP8Compat::strStartsWith("Hello World", "World"));
-        $this->assertTrue(PHP8Compat::strStartsWith("Hello", ""));
+        $this->assertTrue(PHP8Compat::str_starts_with("Hello World", "Hello"));
+        $this->assertFalse(PHP8Compat::str_starts_with("Hello World", "World"));
+        $this->assertTrue(PHP8Compat::str_starts_with("Hello", ""));
     }
 
-    public function testStrEndsWith()
+    public function teststr_ends_with()
     {
-        $this->assertTrue(PHP8Compat::strEndsWith("Hello World", "World"));
-        $this->assertFalse(PHP8Compat::strEndsWith("Hello World", "Hello"));
-        $this->assertTrue(PHP8Compat::strEndsWith("Hello", ""));
+        $this->assertTrue(PHP8Compat::str_ends_with("Hello World", "World"));
+        $this->assertFalse(PHP8Compat::str_ends_with("Hello World", "Hello"));
+        $this->assertTrue(PHP8Compat::str_ends_with("Hello", ""));
     }
 
     public function testFdiv()

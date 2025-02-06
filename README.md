@@ -24,8 +24,8 @@ Install via Composer:
 
 - `mb_str_pad()` - Pad a string to a certain length with another string
 - `str_contains()` - Determine if a string contains a given substring
-- `strStartsWith()` - Check if a string starts with a given substring
-- `strEndsWith()` - Check if a string ends with a given substring
+- `str_starts_with()` - Check if a string starts with a given substring
+- `str_ends_with()` - Check if a string ends with a given substring
 - `str_increment()` - Increment a string
 - `str_decrement()` - Decrement a string
 - `mb_trim()` - Strip whitespace or other characters from both sides
@@ -48,8 +48,8 @@ Install via Composer:
     // String manipulation
     $padded = PHP8Compat::mb_str_pad("Hello", 10, "-"); // "Hello-----"
     $contains = PHP8Compat::str_contains("Hello World", "World"); // true
-    $starts = PHP8Compat::strStartsWith("Hello World", "Hello"); // true
-    $ends = PHP8Compat::strEndsWith("Hello World", "World"); // true
+    $starts = PHP8Compat::str_starts_with("Hello World", "Hello"); // true
+    $ends = PHP8Compat::str_ends_with("Hello World", "World"); // true
 
     // String increment/decrement
     $next = PHP8Compat::str_increment("a"); // "b"
