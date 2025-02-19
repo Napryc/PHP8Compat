@@ -22,14 +22,14 @@ class PHP8CompatTest extends TestCase
         $this->assertFalse(PHP8Compat::str_contains("Hello World", "Python"));
     }
 
-    public function teststr_starts_with()
+    public function testStrStartsWith()
     {
         $this->assertTrue(PHP8Compat::str_starts_with("Hello World", "Hello"));
         $this->assertFalse(PHP8Compat::str_starts_with("Hello World", "World"));
         $this->assertTrue(PHP8Compat::str_starts_with("Hello", ""));
     }
 
-    public function teststr_ends_with()
+    public function testStrEndsWith()
     {
         $this->assertTrue(PHP8Compat::str_ends_with("Hello World", "World"));
         $this->assertFalse(PHP8Compat::str_ends_with("Hello World", "Hello"));
@@ -102,4 +102,53 @@ class PHP8CompatTest extends TestCase
         $this->assertEquals('hELLO', PHP8Compat::mb_lcfirst('HELLO'));
         $this->assertEquals('über', PHP8Compat::mb_lcfirst('Über'));
     }
+
+    public function testJsonValidate()
+    {
+        $this->assertTrue(PHP8Compat::json_validate('{"key":"value"}'));
+        $this->assertTrue(PHP8Compat::json_validate('[1,2,3]'));
+        $this->assertFalse(PHP8Compat::json_validate('{invalid}'));
+        $this->assertFalse(PHP8Compat::json_validate('[1,2,'));
+    }
+
+    public function testArrayFind()
+    {
+        $array = [1, 2, 3, 4, 5];
+        $this->assertEquals(3, PHP8Compat::array_find($array, fn($x) => $x > 2));
+        $this->assertEquals(null, PHP8Compat::array_find($array, fn($x) => $x > 5));
+
+        $array = ['a' => 1, 'b' => 2];
+        $this->assertEquals(2, PHP8Compat::array_find($array, fn($x, $k) => $k === 'b'));
+    }
+
+    public function testArrayFindKey()
+    {
+        $array = [1, 2, 3, 4, 5];
+        $this->assertEquals(2, PHP8Compat::array_find_key($array, fn($x) => $x > 2));
+        $this->assertEquals(null, PHP8Compat::array_find_key($array, fn($x) => $x > 5));
+
+        $array = ['a' => 1, 'b' => 2];
+        $this->assertEquals('b', PHP8Compat::array_find_key($array, fn($x) => $x === 2));
+    }
+
+    public function testArrayAny()
+    {
+        $array = [1, 2, 3, 4, 5];
+        $this->assertTrue(PHP8Compat::array_any($array, fn($x) => $x > 4));
+        $this->assertFalse(PHP8Compat::array_any($array, fn($x) => $x > 5));
+
+        $array = ['a' => 1, 'b' => 2];
+        $this->assertTrue(PHP8Compat::array_any($array, fn($x, $k) => $k === 'b'));
+    }
+
+    public function testArrayAll()
+    {
+        $array = [1, 2, 3, 4, 5];
+        $this->assertTrue(PHP8Compat::array_all($array, fn($x) => $x > 0));
+        $this->assertFalse(PHP8Compat::array_all($array, fn($x) => $x > 2));
+
+        $array = ['a' => 1, 'b' => 2];
+        $this->assertTrue(PHP8Compat::array_all($array, fn($x) => $x > 0));
+    }
 }
+

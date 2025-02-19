@@ -5,6 +5,11 @@ namespace Napryc\PHP8Compat;
 class PHP8Compat
 {
     public const IS_PHP8 = PHP_VERSION_ID >= 80000;
+    public const IS_PHP81 = PHP_VERSION_ID >= 80100;
+    public const IS_PHP82 = PHP_VERSION_ID >= 80200;
+    public const IS_PHP83 = PHP_VERSION_ID >= 80300;
+    public const IS_PHP84 = PHP_VERSION_ID >= 80400;
+
     private const DEFAULT_TRIM_CHARS = " \x09\x0A\x0C\x0D\x00\x0B" .
     "\u{00A0}\u{1680}\u{2000}\u{2001}\u{2002}\u{2003}\u{2004}" .
     "\u{2005}\u{2006}\u{2007}\u{2008}\u{2009}\u{200A}\u{2028}" .
@@ -21,7 +26,7 @@ class PHP8Compat
      */
     public static function mb_str_pad($string, $length, $pad_string = ' ', $pad_type = STR_PAD_RIGHT)
     {
-        if (self::IS_PHP8) {
+        if (self::IS_PHP83) {
             return mb_str_pad($string, $length, $pad_string, $pad_type);
         }
         $str_len = mb_strlen($string);
@@ -63,7 +68,7 @@ class PHP8Compat
      */
     public static function mb_trim(string $string, string $chars = self::DEFAULT_TRIM_CHARS): string
     {
-        if (self::IS_PHP8) {
+        if (self::IS_PHP84) {
             return mb_trim($string, $chars);
         }
 
@@ -79,7 +84,7 @@ class PHP8Compat
      */
     public static function mb_ltrim(string $string, string $chars = self::DEFAULT_TRIM_CHARS): string
     {
-        if (self::IS_PHP8) {
+        if (self::IS_PHP84) {
             return mb_ltrim($string, $chars);
         }
 
@@ -96,7 +101,7 @@ class PHP8Compat
      */
     public static function mb_rtrim(string $string, string $chars = self::DEFAULT_TRIM_CHARS): string
     {
-        if (self::IS_PHP8) {
+        if (self::IS_PHP84) {
             return mb_rtrim($string, $chars);
         }
 
@@ -112,7 +117,7 @@ class PHP8Compat
      */
     public static function mb_ucfirst(string $string): string
     {
-        if (self::IS_PHP8) {
+        if (self::IS_PHP84) {
             return mb_ucfirst($string);
         }
 
@@ -129,39 +134,13 @@ class PHP8Compat
      */
     public static function mb_lcfirst(string $string): string
     {
-        if (self::IS_PHP8) {
+        if (self::IS_PHP84) {
             return mb_lcfirst($string);
         }
 
         $firstChar = mb_substr($string, 0, 1);
         $rest = mb_substr($string, 1);
         return mb_strtolower($firstChar) . $rest;
-    }
-
-    /**
-     * Determines if an array is a list (sequential integer keys starting from 0)
-     *
-     * @param array $arr The array to check
-     * @return bool Returns true if the array is a list, false otherwise
-     */
-    public static function array_is_list(array $arr): bool
-    {
-        if (self::IS_PHP8) {
-            return array_is_list($arr);
-        }
-
-        if ($arr === []) {
-            return true;
-        }
-
-        $i = 0;
-        foreach ($arr as $key => $value) {
-            if ($key !== $i++) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     /**
@@ -172,7 +151,7 @@ class PHP8Compat
      */
     public static function str_increment(string $str): string
     {
-        if (self::IS_PHP8) {
+        if (self::IS_PHP83) {
             return str_increment($str);
         }
 
@@ -228,7 +207,7 @@ class PHP8Compat
      */
     public static function str_decrement(string $str): string
     {
-        if (self::IS_PHP8) {
+        if (self::IS_PHP83) {
             return str_decrement($str);
         }
 
@@ -336,5 +315,169 @@ class PHP8Compat
         }
 
         return $dividend / $divisor;
+    }
+
+    /**
+     * Determines if an array is a list (sequential integer keys starting from 0)
+     *
+     * @param array $arr The array to check
+     * @return bool Returns true if the array is a list, false otherwise
+     */
+    public static function array_is_list(array $arr): bool
+    {
+        if (self::IS_PHP81) {
+            return array_is_list($arr);
+        }
+
+        if ($arr === []) {
+            return true;
+        }
+
+        $i = 0;
+        foreach ($arr as $key => $value) {
+            if ($key !== $i++) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns the first element in an array that satisfies the callback function
+     *
+     * @param array $array The input array
+     * @param callable $callback Function to execute on each value in the array
+     * @param bool $rewind Whether to rewind the array pointer after searching
+     * @return mixed|null Returns the first matching element or null if no element matches
+     */
+    public static function array_find(array $array, callable $callback, bool $rewind = true): mixed
+    {
+        if (self::IS_PHP84) {
+            return array_find($array, $callback, $rewind);
+        }
+
+        foreach ($array as $key => $value) {
+            if ($callback($value, $key)) {
+                if ($rewind) {
+                    reset($array);
+                }
+                return $value;
+            }
+        }
+
+        if ($rewind) {
+            reset($array);
+        }
+        return null;
+    }
+
+    /**
+     * Returns the first key in an array that satisfies the callback function
+     *
+     * @param array $array The input array
+     * @param callable $callback Function to execute on each value in the array
+     * @param bool $rewind Whether to rewind the array pointer after searching
+     * @return int|string|null Returns the first matching key or null if no key matches
+     */
+    public static function array_find_key(array $array, callable $callback, bool $rewind = true): int|string|null
+    {
+        if (self::IS_PHP84) {
+            return array_find_key($array, $callback, $rewind);
+        }
+
+        foreach ($array as $key => $value) {
+            if ($callback($value, $key)) {
+                if ($rewind) {
+                    reset($array);
+                }
+                return $key;
+            }
+        }
+
+        if ($rewind) {
+            reset($array);
+        }
+        return null;
+    }
+
+    /**
+     * Checks if any element in the array satisfies the callback function
+     *
+     * @param array $array The input array
+     * @param callable $callback Function to execute on each value in the array
+     * @param bool $rewind Whether to rewind the array pointer after searching
+     * @return bool Returns true if any element matches, false otherwise
+     */
+    public static function array_any(array $array, callable $callback, bool $rewind = true): bool
+    {
+        if (self::IS_PHP84) {
+            return array_any($array, $callback, $rewind);
+        }
+
+        foreach ($array as $key => $value) {
+            if ($callback($value, $key)) {
+                if ($rewind) {
+                    reset($array);
+                }
+                return true;
+            }
+        }
+
+        if ($rewind) {
+            reset($array);
+        }
+        return false;
+    }
+
+    /**
+     * Checks if all elements in the array satisfy the callback function
+     *
+     * @param array $array The input array
+     * @param callable $callback Function to execute on each value in the array
+     * @param bool $rewind Whether to rewind the array pointer after searching
+     * @return bool Returns true if all elements match, false otherwise
+     */
+    public static function array_all(array $array, callable $callback, bool $rewind = true): bool
+    {
+        if (self::IS_PHP84) {
+            return array_all($array, $callback, $rewind);
+        }
+
+        foreach ($array as $key => $value) {
+            if (!$callback($value, $key)) {
+                if ($rewind) {
+                    reset($array);
+                }
+                return false;
+            }
+        }
+
+        if ($rewind) {
+            reset($array);
+        }
+        return true;
+    }
+
+    /**
+     * Validates a JSON string
+     *
+     * @param string $string The string being validated
+     * @param int $depth Maximum nesting depth of the structure being decoded
+     * @param int $flags Bitmask of JSON decode options
+     * @return bool Returns true if the json is valid, false otherwise
+     */
+    public static function json_validate(string $string, int $depth = 512, int $flags = 0): bool
+    {
+        if (self::IS_PHP83) {
+            return json_validate($string, $depth, $flags);
+        }
+
+        try {
+            json_decode($string, null, $depth, $flags);
+            return json_last_error() === JSON_ERROR_NONE;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }
